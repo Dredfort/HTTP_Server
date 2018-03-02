@@ -1,0 +1,9 @@
+{
+  "name": "http_server",
+  "version": "0.0.0",
+  "description": "HTTP_Server",
+  "main": "app.js",
+  "author": {
+    "name": "user"
+  }
+}
