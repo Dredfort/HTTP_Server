@@ -1,16 +1,24 @@
 // http://localhost:8888/
 
-
-var serverPort = 8888;
 var htttp = require("http");
+var url = require("url");
 
-htttp.createServer(function (reqest, responce) {
-    
-    console.log(reqest);
+function start(serverPort) {
 
-    responce.writeHead(200, { "Content-Type": "text/plain" });
-    responce.write("Hi there");
-    responce.end();
-}).listen(serverPort);
+    function onRequest (reqest, responce) {
 
-console.log("Server started. Port: %f", serverPort);
+        var pathName = url.parse(reqest.url).pathname;
+
+        console.log("Request for [%s] received", pathName);
+
+        responce.writeHead(200, { "Content-Type": "text/plain" });
+        responce.write("Hi bro!");
+        responce.end();
+    }
+
+    htttp.createServer(onRequest).listen(serverPort);
+
+    console.log("Server has started. Port: [%f]", serverPort);
+}
+
+exports.start = start;
