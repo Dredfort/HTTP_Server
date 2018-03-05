@@ -8,14 +8,14 @@ var url = require("url");
 function start(serverPort, route, handle) {
 
     var onRequest = function(reqest, responce) {
-
+        
         var pathName = url.parse(reqest.url).pathname;
         console.log("Request for [%s] received", pathName);
 
-        route(handle, pathName);
-
+        
         responce.writeHead(200, { "Content-Type": "text/plain" });
-        responce.write("Hi bro!");
+        var content = route(handle, pathName);
+        responce.write(content);
         responce.end();
     }
 
