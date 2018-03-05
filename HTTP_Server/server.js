@@ -5,6 +5,7 @@
 var http = require("http");
 var url = require("url");
 function start(serverPortroute, route, handle) {
+    //Callback-function.
     function onRequest(request, response) {
         var postData = "";
         var pathname = url.parse(request.url).pathname;
@@ -12,14 +13,14 @@ function start(serverPortroute, route, handle) {
 
         request.setEncoding("utf8");
 
-        // data lisetener.
+        // Event "data" lisetener.
         request.addListener("data", function (postDataChunk) {
             postData += postDataChunk;
             console.log("Received POST data chunk '" +
                 postDataChunk + "'.");
         });
 
-        // Handler
+        // Event "end" lisetener.
         request.addListener("end", function () {
             route(handle, pathname, response, postData);
         });

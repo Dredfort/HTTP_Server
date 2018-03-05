@@ -2,6 +2,7 @@
 var server = require("./server");
 var router = require("./router");
 var requestHandlers = require("./requestHandlers");
+var formidable = require("formidable");
 
 var port = 8888;
 
