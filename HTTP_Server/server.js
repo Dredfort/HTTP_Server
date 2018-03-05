@@ -2,19 +2,31 @@
 // http://localhost:8888/start
 // http://localhost:8888/upload
 
-var htttp = require("http");
+var http = require("http");
 var url = require("url");
 
-function start(serverPort, route, handle) {
-    var onRequest = function(reqest, responce) {        
-        var pathName = url.parse(reqest.url).pathname;
-        console.log("Request for [%s] received", pathName);
-        
-        route(handle, pathName, responce);
+function start(serverPortroute, route, handle) {
+    function onRequest(request, response) {
+      var postData = "";
+      var pathname = url.parse(request.url).pathname;
+      console.log("Request for " + pathname + " received.");
+  
+      request.setEncoding("utf8");  
+
+      request.addListener("data", function(postDataChunk) {
+        postData += postDataChunk;
+        console.log("Received POST data chunk '"+
+        postDataChunk + "'.");
+      });
+  
+      request.addListener("end", function() {
+        route(handle, pathname, response, postData);
+      });
+  
     }
-
-    htttp.createServer(onRequest).listen(serverPort);
-    console.log("Server has started. Port: [%f]", serverPort);
-}
-
-exports.start = start;
+  
+    http.createServer(onRequest).listen(serverPortroute);
+    console.log("Server has started. Port [%d]", serverPortroute);
+  }
+  
+  exports.start = start;
