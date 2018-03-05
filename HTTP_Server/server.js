@@ -6,10 +6,10 @@ var htttp = require("http");
 var url = require("url");
 
 function start(serverPort, route, handle) {
-    var onRequest = function (reqest, responce) {
+    var onRequest = function(reqest, responce) {        
         var pathName = url.parse(reqest.url).pathname;
         console.log("Request for [%s] received", pathName);
-
+        
         route(handle, pathName, responce);
     }
 
