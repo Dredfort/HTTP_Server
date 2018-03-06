@@ -31,3 +31,25 @@ function start(serverPortroute, route, handle) {
 }
 
 exports.start = start;
+//------------------------------------------
+var express = require("express");
+var app = express();
+function startExpress(port, handle) {
+    app.get("/", function (request, response) {
+        response.send("Hello from Express!");
+    });
+    
+    app.get("/start", function (request, response) {
+       // response.send("Hello from start!");
+       handle["/start"](response);
+    });
+    
+    app.listen(port, function (err) {
+        if (err) {
+            return console.log("something bad happened", err);
+        }
+        console.log("server is listening on", port);
+    });
+}
+
+exports.startExpress = startExpress;
