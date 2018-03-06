@@ -11,5 +11,4 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
 
-server.start(port, router.route, handle);
 server.startExpress(3000, handle);
