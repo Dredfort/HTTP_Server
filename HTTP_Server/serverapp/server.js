@@ -25,14 +25,14 @@ function start(port) {
         next();
     });
 
-    // создаем парсер для данных application/x-www-form-urlencoded
-    var urlencodedParser = bodyParser.urlencoded({ extended: false });
-    app.use(express.static(__dirname + "/public"));
     //http://10.0.1.172:3000/register.html
-    app.post("/register", urlencodedParser, function (request, response) {
+    // создаем парсер для данных в формате json
+    var jsonParser = bodyParser.json();
+    app.use(express.static(__dirname + "/public"));
+    app.post("/user", jsonParser, function (request, response) {
         if (!request.body) return response.sendStatus(400);
         console.log(request.body);
-        response.send(`${request.body.userName} - ${request.body.userAge}`);
+        response.json(`${request.body.userName} - ${request.body.userAge}`);
     });  
 
     // HTML page:
