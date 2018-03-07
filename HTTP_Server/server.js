@@ -45,22 +45,21 @@ function start(port) {
     });
 // Handlebars.
 
+// HTML page
     //http://10.0.1.172:3000/register.html
+    app.use(express.static(__dirname + "/views"));
+    //http://10.0.1.172:3000/static/about.html
+    app.use("/static", express.static(__dirname + "/views"));
     // создаем парсер для данных в формате json
     var jsonParser = bodyParser.json();
-    app.use(express.static(__dirname + "/views"));
     app.post("/user", jsonParser, function (request, response) {
         if (!request.body) return response.sendStatus(400);
         console.log(request.body);
         response.json(`${request.body.userName} - ${request.body.userAge}`);
-    });  
+    });
+// HTML page
 
-    // HTML page:
-    // about.html
-    //http://10.0.1.172:3000/static/about.html
-    app.use("/static",express.static(__dirname + "/views"));
-
-    // Sub categories. Read params/
+// Sub categories. Read params.
     // http://localhost:3000/categories/smatrphones/products/m7Note
     app.get("/categories/:categoryId/products/:productId", function (request, response) {
         var catId = request.params["categoryId"];
@@ -80,6 +79,7 @@ function start(port) {
 
         response.send(`Товар ${request.params.id}`);
     });
+// Sub categories. Read params.
 
     // начинаем прослушивать подключения на 3000 порту
     app.listen(port, function () { console.log("Server started.", port); });
