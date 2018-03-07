@@ -26,7 +26,7 @@ function start(port) {
         next();
     });
 
-    // Handlebars.
+// Handlebars.
     hbs.registerPartials(__dirname + "/views/partials");
     app.set("view engine", "hbs");
     //http://10.0.1.172:3000/
@@ -43,6 +43,7 @@ function start(port) {
             phone: "+1234567890"
         });
     });
+// Handlebars.
 
     //http://10.0.1.172:3000/register.html
     // создаем парсер для данных в формате json
