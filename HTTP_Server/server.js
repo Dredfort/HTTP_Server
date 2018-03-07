@@ -5,6 +5,7 @@ var express = require("express");
 var app = express();
 var fs = require("fs");
 var bodyParser = require("body-parser");
+var hbs = require("hbs");
 
 function start(port) {
  
@@ -25,20 +26,20 @@ function start(port) {
         next();
     });
 
-    app.get("/", function (request, response) {
-        
-        response.send("Главная страница");
-    });
-    
     // Handlebars.
-    //http://10.0.1.172:3000/contact
+    hbs.registerPartials(__dirname + "/views/partials");
     app.set("view engine", "hbs");
+    //http://10.0.1.172:3000/
+    app.get("/", function(request, response){
+        
+        response.render("home.hbs");
+    });
+    //http://10.0.1.172:3000/contact
     app.get("/contact", function(request, response){
-     
+         
         response.render("contact.hbs", {
             title: "Мои контакты",
-            emailsVisible: true,
-            emails: ["gavgav@mycorp.com", "mioaw@mycorp.com"],
+            email: "gavgav@mycorp.com",
             phone: "+1234567890"
         });
     });
