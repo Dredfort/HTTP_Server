@@ -45,7 +45,7 @@ function start(port) {
     app.get("/categories/:categoryId/products/:productId", function (request, response) {
         var catId = request.params["categoryId"];
         var prodId = request.params["productId"];
-        response.send("Категория: ${catId}    Товар: ${prodId}");
+        response.send(`Категория: ${catId}    Товар: ${prodId}`);
     });
     // Router with sub route.
     // http://localhost:3000/products
@@ -57,7 +57,7 @@ function start(port) {
     });
     productRouter.route("/:id").get(function (request, response) {
 
-        response.send("Товар ${request.params.id}");
+        response.send(`Товар ${request.params.id}`);
     });
     app.get("/", function (request, response) {
 
