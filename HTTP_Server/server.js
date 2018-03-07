@@ -48,7 +48,7 @@ function start(port) {
     //http://10.0.1.172:3000/register.html
     // создаем парсер для данных в формате json
     var jsonParser = bodyParser.json();
-    app.use(express.static(__dirname + "/public"));
+    app.use(express.static(__dirname + "/views"));
     app.post("/user", jsonParser, function (request, response) {
         if (!request.body) return response.sendStatus(400);
         console.log(request.body);
@@ -58,7 +58,7 @@ function start(port) {
     // HTML page:
     // about.html
     //http://10.0.1.172:3000/static/about.html
-    app.use("/static",express.static(__dirname + "/public"));
+    app.use("/static",express.static(__dirname + "/views"));
 
     // Sub categories. Read params/
     // http://localhost:3000/categories/smatrphones/products/m7Note
