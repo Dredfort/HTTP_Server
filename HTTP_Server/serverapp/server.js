@@ -7,6 +7,13 @@ var fs = require("fs");
 
 function start(port) {
 
+//------------------------------------------
+//------------------------------------------
+    // HTML page:
+    // about.html
+    //http://10.0.1.172:3000/static/about.html
+    app.use("/static",express.static(__dirname + "/public"));
+
     // logger. 
     // also use("/", (callback) {response.send();})
     app.use(function (request, response, next) {
@@ -23,6 +30,8 @@ function start(port) {
         });
         next();
     });
+
+    // Sub categories. Read params/
     // http://localhost:3000/categories/smatrphones/products/m7Note
     app.get("/categories/:categoryId/products/:productId", function (request, response) {
         var catId = request.params["categoryId"];
@@ -45,7 +54,6 @@ function start(port) {
 
         response.send("Главная страница");
     });
-
     // начинаем прослушивать подключения на 3000 порту
     app.listen(port, function () { console.log("Server started.", port); });
 }
