@@ -4,16 +4,10 @@
 var express = require("express");
 var app = express();
 var fs = require("fs");
+var bodyParser = require("body-parser");
 
 function start(port) {
-
-//------------------------------------------
-//------------------------------------------
-    // HTML page:
-    // about.html
-    //http://10.0.1.172:3000/static/about.html
-    app.use("/static",express.static(__dirname + "/public"));
-
+ 
     // logger. 
     // also use("/", (callback) {response.send();})
     app.use(function (request, response, next) {
@@ -31,12 +25,27 @@ function start(port) {
         next();
     });
 
+    // создаем парсер для данных application/x-www-form-urlencoded
+    var urlencodedParser = bodyParser.urlencoded({ extended: false });
+    app.use(express.static(__dirname + "/public"));
+    //http://10.0.1.172:3000/register.html
+    app.post("/register", urlencodedParser, function (request, response) {
+        if (!request.body) return response.sendStatus(400);
+        console.log(request.body);
+        response.send(`${request.body.userName} - ${request.body.userAge}`);
+    });  
+
+    // HTML page:
+    // about.html
+    //http://10.0.1.172:3000/static/about.html
+    app.use("/static",express.static(__dirname + "/public"));
+
     // Sub categories. Read params/
     // http://localhost:3000/categories/smatrphones/products/m7Note
     app.get("/categories/:categoryId/products/:productId", function (request, response) {
         var catId = request.params["categoryId"];
         var prodId = request.params["productId"];
-        response.send(`Категория: ${catId}    Товар: ${prodId}`);
+        response.send("Категория: ${catId}    Товар: ${prodId}");
     });
     // Router with sub route.
     // http://localhost:3000/products
@@ -48,7 +57,7 @@ function start(port) {
     });
     productRouter.route("/:id").get(function (request, response) {
 
-        response.send(`Товар ${request.params.id}`);
+        response.send("Товар ${request.params.id}");
     });
     app.get("/", function (request, response) {
 
