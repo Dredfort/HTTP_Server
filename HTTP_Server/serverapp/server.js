@@ -7,6 +7,7 @@ var fs = require("fs");
 
 function start(port) {
 
+    // logger.
     app.use(function(request, response, next){
      
         var now = new Date();
