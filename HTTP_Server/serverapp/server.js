@@ -7,18 +7,31 @@ var fs = require("fs");
 
 function start(port) {
 
-    app.get("/", function(request, response){
+    app.use(function(request, response, next){
      
-        response.send("<h1>Главная страница</h1>");
+        var now = new Date();
+        var hour = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
+        console.log(data);
+        fs.appendFile("server.log", data + "\n", function (err) {
+            if (err) throw err;
+            console.log('The "data to append" was appended to file!');
+        });
+        next();
     });
-    app.get("/about", function(request, response){
+    app.use("/about", function(request, response, next){
          
-        response.send("<h1>О сайте</h1>");
+        console.log("About Middleware");
+        response.send("About Middleware");
     });
-    app.get("/contact", function(request, response){
-         
-        response.send("<h1>Контакты</h1>");
+     
+    app.get("/", function(request, response){
+        console.log("Route /");
+        response.send("Hello");
     });
+
     // начинаем прослушивать подключения на 3000 порту
     app.listen(port, function () { console.log("Server started.", port); });
 }
