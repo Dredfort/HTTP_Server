@@ -25,6 +25,24 @@ function start(port) {
         next();
     });
 
+    app.get("/", function (request, response) {
+        
+        response.send("Главная страница");
+    });
+    
+    // Handlebars.
+    //http://10.0.1.172:3000/contact
+    app.set("view engine", "hbs");
+    app.get("/contact", function(request, response){
+     
+        response.render("contact.hbs", {
+            title: "Мои контакты",
+            emailsVisible: true,
+            emails: ["gavgav@mycorp.com", "mioaw@mycorp.com"],
+            phone: "+1234567890"
+        });
+    });
+
     //http://10.0.1.172:3000/register.html
     // создаем парсер для данных в формате json
     var jsonParser = bodyParser.json();
@@ -47,6 +65,7 @@ function start(port) {
         var prodId = request.params["productId"];
         response.send(`Категория: ${catId}    Товар: ${prodId}`);
     });
+
     // Router with sub route.
     // http://localhost:3000/products
     var productRouter = express.Router();
@@ -59,10 +78,7 @@ function start(port) {
 
         response.send(`Товар ${request.params.id}`);
     });
-    app.get("/", function (request, response) {
 
-        response.send("Главная страница");
-    });
     // начинаем прослушивать подключения на 3000 порту
     app.listen(port, function () { console.log("Server started.", port); });
 }
