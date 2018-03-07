@@ -23,7 +23,6 @@ function start(port) {
         });
         next();
     });
-
     // http://localhost:3000/categories/smatrphones/products/m7Note
     app.get("/categories/:categoryId/products/:productId", function (request, response) {
         var catId = request.params["categoryId"];
@@ -31,17 +30,20 @@ function start(port) {
       response.send(`Категория: ${catId}    Товар: ${prodId}`);
     });
 
+    // http://localhost:3000/products
+    var productRouter = express.Router();
+    app.use("/products", productRouter);
+    productRouter.route("/").get(function (request, response) {
+
+            response.send("Список товаров");
+        });
+    productRouter.route("/:id").get(function (request, response) {
+
+            response.send(`Товар ${request.params.id}`);
+        });
     app.get("/", function (request, response) {
 
-        response.send("<h1>Главная страница</h1>");
-    });
-    app.get("/about", function (request, response) {
-
-        response.send("<h1>О сайте</h1>");
-    });
-    app.get("/contact", function (request, response) {
-
-        response.send("<h1>Контакты</h1>");
+        response.send("Главная страница");
     });
 
     // начинаем прослушивать подключения на 3000 порту
