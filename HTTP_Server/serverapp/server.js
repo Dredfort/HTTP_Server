@@ -7,7 +7,8 @@ var fs = require("fs");
 
 function start(port) {
 
-    // logger.
+    // logger. 
+    // also use("/", (callback) {response.send();})
     app.use(function(request, response, next){
      
         var now = new Date();
@@ -22,15 +23,25 @@ function start(port) {
         });
         next();
     });
-    app.use("/about", function(request, response, next){
-         
-        console.log("About Middleware");
-        response.send("About Middleware");
+
+    // http://localhost:3000/categories/smatrphones/products/m7Note
+    app.get("/categories/:categoryId/products/:productId", function (request, response) {
+        var catId = request.params["categoryId"];
+        var prodId = request.params["productId"];
+      response.send(`Категория: ${catId}    Товар: ${prodId}`);
     });
-     
-    app.get("/", function(request, response){
-        console.log("Route /");
-        response.send("Hello");
+
+    app.get("/", function (request, response) {
+
+        response.send("<h1>Главная страница</h1>");
+    });
+    app.get("/about", function (request, response) {
+
+        response.send("<h1>О сайте</h1>");
+    });
+    app.get("/contact", function (request, response) {
+
+        response.send("<h1>Контакты</h1>");
     });
 
     // начинаем прослушивать подключения на 3000 порту
