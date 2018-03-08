@@ -81,6 +81,21 @@ function start(port) {
     });
 // Sub categories. Read params.
 
+// UE4 reader.
+    var ue4Router = express.Router();
+    app.use("/ue4", ue4Router);
+    // // http://10.0.1.172:3000/ue4/class/
+    ue4Router.route("/class/:classId").get(function(request, response){
+        var clId = request.params["classId"];
+        console.log("UE4 log>>> [%s]", clId);
+    });
+    ue4Router.route("/stats").post(jsonParser, function (request, response) {
+        if(!request.body) return response.sendStatus(400);
+        console.log(request.body);
+      response.send(`${request.body.Name}`);
+    });
+// UE4 reader.
+
     // начинаем прослушивать подключения на 3000 порту
     app.listen(port, function () { console.log("Server started.", port); });
 }
