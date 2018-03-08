@@ -88,6 +88,7 @@ function start(port) {
     ue4Router.route("/class/:classId").get(function(request, response){
         var clId = request.params["classId"];
         console.log("UE4 log>>> [%s]", clId);
+        response.send(`Class: ${clId}`);
     });
     ue4Router.route("/stats").post(jsonParser, function (request, response) {
         if(!request.body) return response.sendStatus(400);
