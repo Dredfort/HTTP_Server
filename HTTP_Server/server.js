@@ -32,7 +32,7 @@ function start(port) {
     //http://10.0.1.172:3000/
     app.get("/", function(request, response){
         
-        response.render("home.hbs");
+        response.render("home.hbs", {fruit: [ "apple", "lemon", "banana", "grape"]});
     });
     //http://10.0.1.172:3000/contact
     app.get("/contact", function(request, response){
@@ -42,6 +42,29 @@ function start(port) {
             email: "gavgav@mycorp.com",
             phone: "+1234567890"
         });
+    });
+
+    hbs.registerHelper("getTime", function(){
+     
+        var myDate = new Date();
+        var hour = myDate.getHours();
+        var minute = myDate.getMinutes();
+        var second = myDate.getSeconds();
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (second < 10) {
+            second = "0" + second;
+        }
+        return "Текущее время: " + hour + ":" + minute + ":" + second;
+    });
+    hbs.registerHelper("createStringList", function(array){
+     
+        var result="";
+        for(var i=0; i<array.length; i++){
+            result +="<li>" + array[i] + "</li>";
+        }
+        return new hbs.SafeString("<ul>" + result + "</ul>");
     });
 // Handlebars.
 
