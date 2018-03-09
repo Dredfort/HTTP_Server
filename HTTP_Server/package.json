@@ -1,13 +1,9 @@
 {
-  "name": "http_server",
-  "version": "0.1.0",
-  "description": "HTTP_Server",
-  "main": "index.js",
-  "author": {
-    "name": "user"
-  },
+  "name": "mongoapp",
+  "version": "1.0.0",
   "dependencies": {
-    "express": "^4.16.2",
-    "formidable": "^1.1.1"
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.35"
   }
 }
