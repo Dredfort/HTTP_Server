@@ -14,24 +14,24 @@ app.get("/api/users", function (req, res) {
     res.send(users);
 });
 // получение одного пользователя по id http://localhost:3000/api/users/1
-app.get("/api/users/:id", function (req, res) {
-
-    var id = req.params.id;
-    var content = fs.readFileSync("users.json", "utf-8");
+app.get("/api/users/:id", function(req, res){
+      
+    var id = req.params.id; // получаем id
+    var content = fs.readFileSync("users.json", "utf8");
     var users = JSON.parse(content);
     var user = null;
     // находим в массиве пользователя по id
-    for (var i = 0; i < users.lenght; i++) {
-        if (users[i].id == id) {
+    for(var i=0; i<users.length; i++){
+        if(users[i].id==id){
             user = users[i];
             break;
         }
     }
-
-    if (user) {
+    // отправляем пользователя
+    if(user){
         res.send(user);
     }
-    else {
+    else{
         res.status(404).send();
     }
 });
@@ -112,5 +112,6 @@ app.put("/api/users", jsonParser, function(req, res){
         res.status(404).send(user);
     }
 });
+
 
  app.listen(3000, function(){ console.log("Server waiting for connection...")});
