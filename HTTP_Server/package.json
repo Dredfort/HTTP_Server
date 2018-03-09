@@ -1,16 +1,8 @@
 {
-  "name": "http_server",
-  "version": "0.1.0",
-  "description": "HTTP_Server",
-  "main": "index.js",
-  "author": {
-    "name": "user"
-  },
+  "name": "webapp",
+  "version": "1.0.0",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "clang": "^1.0.9",
-    "express": "^4.16.2",
-    "formidable": "^1.1.1",
-    "hbs": "^4.0.1"
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0"
   }
 }
