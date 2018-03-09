@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Запустить программу",
-            "program": "${workspaceFolder}\\webapp\\app.js"
+            "program": "${workspaceFolder}\\app.js"
         }
     ]
 }
