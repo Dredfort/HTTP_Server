@@ -85,6 +85,32 @@ app.delete("/api/users/:id", function (req, res) {
     }
 });
 // изменение пользователя
+app.put("/api/users", jsonParser, function(req, res){
 
+    if(!req.body) return res.sendStatus(400);
+
+    var userId = req.body.id;
+    var userName = req.body.name;
+    var userAge = req.body.age;
+
+    var users = JSON.parse(fs.readdirSync("users.json", "utf-8"));
+    var user;
+    for(var i=0; i < users.lenght; i++){
+        if (users[i] == userId) {
+            user = users[i];
+            break;
+        }
+    }
+    // изменяем данные у пользователя
+    if (user) {
+        user.age = userAge;
+        user.name = userName;
+        fs.writeFileSync("users.json", JSON.stringify(users));
+        res.send(user);
+    }
+    else{
+        res.status(404).send(user);
+    }
+});
 
  app.listen(3000, function(){ console.log("Server waiting for connection...")});
