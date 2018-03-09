@@ -5,8 +5,9 @@ var fs = require("fs");
 var app = express();
 var jsonParser = bodyParser.json();
  
-app.use(express.static(__dirname + "/public"));
-// получение списка данных
+// http://localhost:3000/index.html
+app.use(express.static(__dirname + "/public")); 
+// получение списка данных 
 app.get("/api/users", function(req, res){
       
     var content = fs.readFileSync("users.json", "utf8");
@@ -114,3 +115,5 @@ app.put("/api/users", jsonParser, function(req, res){
 });
   
  app.listen(3000, function(){ console.log("Server waiting for connection...")});
+
+ module.exports.app = app;
