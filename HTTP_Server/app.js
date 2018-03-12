@@ -4,7 +4,9 @@ var fs = require("fs");
  
 var app = express();
 var jsonParser = bodyParser.json();
- 
+
+var serverPort = 3000; 
+var ip = require("./ip");
 app.use(function (request, response, next) {
 
     var now = new Date();
@@ -19,8 +21,9 @@ app.use(function (request, response, next) {
     });
     next();
 });
-// http://localhost:3000/index.html
+// http://10.0.1.172:3000/index.html
 app.use(express.static(__dirname + "/public")); 
+// Routing API
 var apiRouter = express.Router();
 app.use("/api",apiRouter);
 // получение списка данных 
@@ -128,6 +131,7 @@ apiRouter.route("/users").put( jsonParser, function(req, res){
     }
 });
   
- app.listen(3000, function(){ console.log("Server waiting for connection...");});
+ app.listen(serverPort, function(){ console.log(`Server waiting for connection...[${ip.getLocalIP()}:${serverPort}]`);});
+ ip.getIP();
 
  module.exports.app = app;
