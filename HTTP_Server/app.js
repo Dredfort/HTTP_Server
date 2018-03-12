@@ -12,7 +12,7 @@ app.use(function (request, response, next) {
     var minutes = now.getMinutes();
     var seconds = now.getSeconds();
     var data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
-    console.log(data);
+   // console.log(data);
     fs.appendFile("server.log", data + "\n", function (err) {
         if (err) throw err;
         console.log('The "data to append" was appended to file!');
@@ -21,15 +21,17 @@ app.use(function (request, response, next) {
 });
 // http://localhost:3000/index.html
 app.use(express.static(__dirname + "/public")); 
+var apiRouter = express.Router();
+app.use("/api",apiRouter);
 // получение списка данных 
-app.get("/api/users", function(req, res){
+apiRouter.route("/users").get( function(req, res){
       
     var content = fs.readFileSync("users.json", "utf8");
     var users = JSON.parse(content);
     res.send(users);
 });
 // получение одного пользователя по id
-app.get("/api/users/:id", function(req, res){
+apiRouter.route("/users/:id").get( function(req, res){
       
     var id = req.params.id; // получаем id
     var content = fs.readFileSync("users.json", "utf8");
@@ -51,7 +53,7 @@ app.get("/api/users/:id", function(req, res){
     }
 });
 // получение отправленных данных
-app.post("/api/users", jsonParser, function (req, res) {
+apiRouter.route("/users").post( jsonParser, function (req, res) {
      
     if(!req.body) return res.sendStatus(400);
      
@@ -63,18 +65,17 @@ app.post("/api/users", jsonParser, function (req, res) {
     var users = JSON.parse(data);
      
     // находим максимальный id
-    var id = Math.max.apply(Math,users.map(function(o){return o.id;}))
+    var id = Math.max.apply(Math,users.map(function(o){return o.id;}));
     // увеличиваем его на единицу
     user.id = id+1;
     // добавляем пользователя в массив
     users.push(user);
-    var data = JSON.stringify(users);
     // перезаписываем файл с новыми данными
-    fs.writeFileSync("users.json", data);
+    fs.writeFileSync("users.json", JSON.stringify(users));
     res.send(user);
 });
  // удаление пользователя по id
-app.delete("/api/users/:id", function(req, res){
+ apiRouter.route("/users/:id").delete( function(req, res){
       
     var id = req.params.id;
     var data = fs.readFileSync("users.json", "utf8");
@@ -90,8 +91,7 @@ app.delete("/api/users/:id", function(req, res){
     if(index > -1){
         // удаляем пользователя из массива по индексу
         var user = users.splice(index, 1)[0];
-        var data = JSON.stringify(users);
-        fs.writeFileSync("users.json", data);
+        fs.writeFileSync("users.json", JSON.stringify(users));
         // отправляем удаленного пользователя
         res.send(user);
     }
@@ -100,7 +100,7 @@ app.delete("/api/users/:id", function(req, res){
     }
 });
 // изменение пользователя
-app.put("/api/users", jsonParser, function(req, res){
+apiRouter.route("/users").put( jsonParser, function(req, res){
       
     if(!req.body) return res.sendStatus(400);
      
@@ -128,6 +128,6 @@ app.put("/api/users", jsonParser, function(req, res){
     }
 });
   
- app.listen(3000, function(){ console.log("Server waiting for connection...")});
+ app.listen(3000, function(){ console.log("Server waiting for connection...");});
 
  module.exports.app = app;
