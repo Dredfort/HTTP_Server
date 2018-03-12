@@ -1,10 +1,10 @@
 var
     // Local ip address that we're trying to calculate
-    address
+    address,
     // Provides a few basic operating-system related utility functions (built-in)
-    ,os = require('os')
+    os = require('os'),
     // Network interfaces
-    ,ifaces = os.networkInterfaces();
+    ifaces = os.networkInterfaces();
 
 var getIP = function () {
     
