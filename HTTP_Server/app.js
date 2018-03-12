@@ -5,6 +5,20 @@ var fs = require("fs");
 var app = express();
 var jsonParser = bodyParser.json();
  
+app.use(function (request, response, next) {
+
+    var now = new Date();
+    var hour = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+    var data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
+    console.log(data);
+    fs.appendFile("server.log", data + "\n", function (err) {
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+    });
+    next();
+});
 // http://localhost:3000/index.html
 app.use(express.static(__dirname + "/public")); 
 // получение списка данных 
