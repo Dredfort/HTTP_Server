@@ -1,16 +1,26 @@
-//https://mlab.com/home
+// https://mlab.com/home
+// http://10.0.1.172:3000/index.html
+var serverPort = 3000; 
+
+var fs = require("fs");
 
 var express = require("express");
+var app = express();
+
 var bodyParser = require("body-parser");
+var jsonParser = bodyParser.json();
+
 var mongoClient = require("mongodb").MongoClient;
 var objectId = require("mongodb").ObjectID;
-
-var app = express();
-var jsonParser = bodyParser.json();
 var url = "mongodb://Dredfort:Hfuyfhtr7822~@ds111279.mlab.com:11279/ue";
 
-var serverPort = 3000; 
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+// для работы с promise
+mongoose.Promise = global.Promise;
+
 var ip = require("./ip");
+
 app.use(function (request, response, next) {
 
     var now = new Date();
@@ -34,7 +44,7 @@ apiRouter.route("/users").get( function(req, res){
       
     mongoClient.connect(url, function(err, db){
         db.collection("users").find({}).toArray(function(err, users){
-            res.send(users)
+            res.send(users);
             db.close();
         });
     });
