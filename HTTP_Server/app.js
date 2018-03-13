@@ -9,6 +9,23 @@ var app = express();
 var jsonParser = bodyParser.json();
 var url = "mongodb://Dredfort:Hfuyfhtr7822~@ds111279.mlab.com:11279/ue";
 
+var serverPort = 3000; 
+var ip = require("./ip");
+app.use(function (request, response, next) {
+
+    var now = new Date();
+    var hour = now.getHours();
+    var minutes = now.getMinutes();
+    var seconds = now.getSeconds();
+    var data = `${hour}:${minutes}:${seconds} ${request.method} ${request.url} ${request.get("user-agent")}`;
+   // console.log(data);
+    fs.appendFile("server.log", data + "\n", function (err) {
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+    });
+    next();
+});
+// http://10.0.1.172:3000/index.html
 app.use(express.static(__dirname + "/public"));
 
 var apiRouter = express.Router();
@@ -90,6 +107,5 @@ apiRouter.route("/users").put( jsonParser, function(req, res){
     });
 });
   
-app.listen(3000, function(){
-    console.log("Сервер ожидает подключения...");
-});
+app.listen(serverPort, function(){ console.log(`Server waiting for connection...[${ip.getLocalIP()}:${serverPort}]`);});
+ ip.getIP();
