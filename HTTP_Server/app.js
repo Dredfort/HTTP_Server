@@ -14,12 +14,19 @@ var mongoClient = require("mongodb").MongoClient;
 var objectId = require("mongodb").ObjectID;
 var url = "mongodb://Dredfort:Hfuyfhtr7822~@ds111279.mlab.com:11279/ue";
 
+var ip = require("./ip");
+
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 // для работы с promise
 mongoose.Promise = global.Promise;
+mongoose.connect(url);
+// установка схемы
+var userScheme = new Schema({
+    name: { type: String, default: "NoName" },
+    age: { type: Number, default: 22 }
+});
 
-var ip = require("./ip");
 
 app.use(function (request, response, next) {
 
