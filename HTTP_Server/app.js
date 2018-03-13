@@ -38,7 +38,7 @@ app.use(function (request, response, next) {
    // console.log(data);
     fs.appendFile("server.log", data + "\n", function (err) {
         if (err) throw err;
-        console.log('The "data to append" was appended to file!');
+        console.log(`${request.method}: request`);
     });
     next();
 });
@@ -51,6 +51,10 @@ apiRouter.route("/users").get( function(req, res){
       
     mongoClient.connect(url, function(err, db){
         db.collection("users").find({}).toArray(function(err, users){
+            users.sort(function (a, b) {
+                if (a.age > b.age) return 1;
+                if (a.age < b.age) return -1;
+            });
             res.send(users);
             db.close();
         });
